@@ -7,4 +7,4 @@ if not exist %logFolder% (
     mkdir %logFolder%
 )
 
-PowerShell %startupFolder%\startup_script.ps1 | tee %logFolder%\%currDate%_%currTime%_log.log
+PowerShell %startupFolder%\psh_startup_script.ps1 | tee %logFolder%\%currDate%_%currTime%_log.log
