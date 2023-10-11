@@ -39,7 +39,8 @@ function Stop-Process-From-List {
 
 Write-Output "Running startup script"
 
-$processesToStop = Get-Content -Path "./process.txt"
+$processFileName = $PSScriptRoot + "./process.txt"
+$processesToStop = Get-Content -Path $processFileName
 foreach ($process in $processesToStop) {
     Stop-Process-From-List $process
     Start-Sleep -Milliseconds 500
