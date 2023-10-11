@@ -6,8 +6,8 @@ set pshScript=psh_startup_script.ps1
 
 (
     for /f "tokens=* delims=" %%x in (startup.txt) do (
+        echo %%x
         set line=%%x
-        echo %line%
         @REM if %line:~4:13%=="startupFolder" (
             @REM echo set startupFolder=%currentDir%/%pshScript%/testtesttest
         @REM ) else (
