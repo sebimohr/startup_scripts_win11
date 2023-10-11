@@ -39,7 +39,7 @@ function Stop-Process-From-List {
 
 Write-Output "Running startup script"
 
-$processesToStop = Get-Content -Path "./.startup/process.txt "
+$processesToStop = Get-Content -Path "./process.txt"
 foreach ($process in $processesToStop) {
     Stop-Process-From-List $process
     Start-Sleep -Milliseconds 500
