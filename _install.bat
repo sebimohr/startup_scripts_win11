@@ -1,21 +1,69 @@
 @echo off
 
-set currentDir=%~dp0
-set targetFile=%currentDir%/startup.bat
-set pshScript=psh_startup_script.ps1
+call :permissionCheck
+call :cosmeticPause
+call :startupBatCreation
+call :cosmeticPause
+call :movingStartupBat
+call :cosmeticPause
 
-SETLOCAL ENABLEDELAYEDEXPANSION
-(
-    for /f "tokens=*" %%x in (startup.bat) do (
-        @REM echo %%x
-        set line=%%~nx
-        @REM if !line:~4:13!=="startupFolder" (
-            @REM echo hello
-            @REM echo set startupFolder=%currentDir%/%pshScript%/testtesttest
-        @REM ) else if !line!=="" (
-            @REM echo.
-        @REM ) else (
-            echo !line!
-        @REM )
-    )
-) 
+echo The script has completed the installation!
+timeout /t 5
+
+GOTO exitScript
+
+:permissionCheck
+    echo Checking permissions...
+
+    net session >nul 2>&1
+    if not %errorLevel% == 0 GOTO noAdminRights
+
+    call :cosmeticPause
+    echo Permission check successful!
+EXIT /B 0
+
+:noAdminRights
+    echo Please start the script with the appropriate rights!
+    echo Read the README.md!
+    pause
+GOTO exitScript
+
+:startupBatCreation
+    set currentDir=%~dp0
+    set targetFile=%currentDir%/startup.bat
+
+    echo Creating startup.bat with correct directory declaration...
+
+    SETLOCAL ENABLEDELAYEDEXPANSION
+    (
+        for /f "delims=" %%A in (%targetFile%) do (
+            set line=%%~A
+            if "!line:~0,17!"=="set startupFolder" (
+                echo set startupFolder=%currentDir:~0,-1%
+            ) else if !line!=="" (
+                echo.
+            ) else (
+                echo !line!
+            )
+        )
+    ) > temp.bat
+    call :cosmeticPause
+
+    echo Creation of startup.bat finished.
+EXIT /B 0
+
+:movingStartupBat
+    echo Moving startup.bat to autostart folder...
+
+    move temp.bat "%PROGRAMDATA%\Microsoft\Windows\Start Menu\Programs\Startup\startup.bat"
+    call :cosmeticPause
+
+    echo Startup.bat has been successfully moved to the startup folder.
+EXIT /B 0
+
+:cosmeticPause
+    TIMEOUT /t 1 /nobreak >nul
+EXIT /B 0
+
+:exitScript
+    exit
