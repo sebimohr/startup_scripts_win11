@@ -18,9 +18,9 @@ function Stop-Process-From-List {
     param (
         [String]$process 
     )
-    
+
     for ($i = 0; $i -lt 2; $i++) {
-        $runningProcess = Get-Process -Name $process -ErrorAction SilentlyContinue
+        $runningProcess = Get-Process -Name $process* -ErrorAction SilentlyContinue
 
         if ($runningProcess) {
             Write-Output "Stopping Process '${process}'"
