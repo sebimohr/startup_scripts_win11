@@ -8,9 +8,6 @@ The startup script will run on autoStart to exit processes and services that hav
 
 The `startup.bat` file runs when your PC is starting as an _Startup app_.
 Its only purpose is to execute the local copy of the `psh_startup_script.ps1`.
-If you don't have the repo checked out in your local user profile directory,
-you have to change the path that's included in the second line of the `startup.bat`
-before installing.
 
 ## Installation
 
