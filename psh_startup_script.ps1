@@ -20,7 +20,7 @@ function Stop-Process-From-List {
     )
 
     for ($i = 0; $i -lt 2; $i++) {
-        $runningProcess = Get-Process -Name $process* -ErrorAction SilentlyContinue
+        $runningProcess = Get-Process -Name $process -ErrorAction SilentlyContinue
 
         if ($runningProcess) {
             Write-Output "Stopping Process '${process}'"
@@ -38,6 +38,8 @@ function Stop-Process-From-List {
 }
 
 Write-Output "Running startup script"
+Write-Output "Waiting a few seconds to let the computer fully start..."
+TIMEOUT /t 5
 
 $processFileName = $PSScriptRoot + "./res/process.txt"
 $processesToStop = Get-Content -Path $processFileName
@@ -46,9 +48,11 @@ foreach ($process in $processesToStop) {
     Start-Sleep -Milliseconds 500
 }
 
-Write-Output "Finished startup script, shutting down in 5 seconds"
+# copy current gitconfig to ~/.config/git directory to have it up to date with config repo
+Copy-Item .\.gitconfig .\.config\git\
+
+Write-Output "Finished startup script, shutting down..."
 
 TIMEOUT /t 5
 
 exit
-
