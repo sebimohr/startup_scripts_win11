@@ -6,6 +6,7 @@ call :startupBatCreation
 call :cosmeticPause
 call :movingStartupBat
 call :cosmeticPause
+call :defaultFolderCreation
 
 echo The script has completed the installation!
 timeout /t 5
@@ -59,6 +60,10 @@ EXIT /B 0
     call :cosmeticPause
 
     echo Startup.bat has been successfully moved to the startup folder.
+EXIT /B 0
+
+:defaultFolderCreation
+    mkdir res
 EXIT /B 0
 
 :cosmeticPause
