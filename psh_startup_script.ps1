@@ -49,7 +49,7 @@ foreach ($process in $processesToStop) {
 }
 
 # copy current gitconfig to ~/.config/git directory to have it up to date with config repo
-Copy-Item .\.gitconfig .\.config\git\
+Copy-Item $env:USERPROFILE\.gitconfig $env:USERPROFILE\.config\git\
 
 Write-Output "Finished startup script, shutting down..."
 
