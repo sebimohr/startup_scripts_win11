@@ -50,6 +50,7 @@ foreach ($process in $processesToStop) {
 
 # copy current gitconfig to ~/.config/git directory to have it up to date with config repo
 Copy-Item $env:USERPROFILE\.gitconfig $env:USERPROFILE\.config\git\
+Copy-Item $env:LOCALAPPDATA\nvim\init.vim $env:USERPROFILE\.config\nvim\
 
 Write-Output "Finished startup script, shutting down..."
 
