@@ -19,6 +19,10 @@ function Stop-Process-From-List {
         [String]$process 
     )
 
+    if ($process[0] -eq '#') {
+        return
+    }
+
     for ($i = 0; $i -lt 2; $i++) {
         $runningProcess = Get-Process -Name $process -ErrorAction SilentlyContinue
 
@@ -26,8 +30,8 @@ function Stop-Process-From-List {
             Write-Output "Stopping Process '${process}'"
             $runningProcess.Kill()
 
-            if ($runningProcess.HasExited) {
-                $runningProcess | Stop-Process -Force
+            if (-Not $runningProcess.HasExited) {
+                $runningProcess | Stop-Process -Force -ErrorAction SilentlyContinue
             }
             break
         }
@@ -47,10 +51,6 @@ foreach ($process in $processesToStop) {
     Stop-Process-From-List $process
     Start-Sleep -Milliseconds 500
 }
-
-# copy current gitconfig to ~/.config/git directory to have it up to date with config repo
-Copy-Item $env:USERPROFILE\.gitconfig $env:USERPROFILE\.config\git\
-Copy-Item $env:LOCALAPPDATA\nvim\init.vim $env:USERPROFILE\.config\nvim\
 
 Write-Output "Finished startup script, shutting down..."
 
